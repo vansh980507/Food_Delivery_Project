@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuickBite – Food Delivery</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-left">
+        <div class="logo">
+          <span class="logo-icon">🍔</span>
+          <span class="logo-text">QuickBite</span>
+        </div>
+        <div class="location-picker" onclick="toggleLocationDropdown()" id="loc-picker">
+          <span class="loc-icon">📍</span>
+          <div>
+            <span class="loc-label">Deliver to</span>
+            <span class="loc-city" id="loc-city-text">New Delhi <span class="loc-arrow">▾</span></span>
+          </div>
+        </div>
+        <!-- Location Dropdown -->
+        <div class="loc-dropdown hidden" id="loc-dropdown">
+          <div class="loc-dropdown-header">
+            <span>📍</span>
+            <input type="text" id="loc-search" placeholder="Search area, street, locality..." oninput="filterAreas(this.value)" autocomplete="off">
+            <button class="loc-detect-btn" onclick="detectLocation()">🎯 Detect</button>
+          </div>
+          <div class="loc-section-label">📌 Nearby Areas</div>
+          <ul class="loc-list" id="loc-list"></ul>
+        </div>
+      </div>
+      <div class="header-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Search for restaurants, cuisines or dishes..." id="search-input" oninput="handleSearch(this.value)">
+      </div>
+      <div class="header-right">
+        <a href="#" class="header-link">Sign In</a>
+        <a href="#" class="header-link">Sign Up</a>
+        <button class="cart-btn" onclick="toggleCart()">
+          <span class="cart-icon">🛒</span>
+          <span>Cart</span>
+          <span class="cart-badge" id="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== HERO BANNER ===== -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <h1>Hungry? <span class="hero-accent">We've got you.</span></h1>
+        <p>Order food from the best restaurants near you. Fast delivery, great taste.</p>
+        <div class="hero-search">
+          <span>📍</span>
+          <input type="text" placeholder="Enter your delivery location...">
+          <button onclick="document.getElementById('categories-section').scrollIntoView({behavior:'smooth'})">Find Food</button>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><strong>500+</strong><span>Restaurants</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat"><strong>30 min</strong><span>Avg Delivery</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat"><strong>4.8★</strong><span>Avg Rating</span></div>
+        </div>
+      </div>
+      <div class="hero-img-wrap">
+        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=85" alt="Delicious Food" class="hero-img">
+        <div class="hero-badge hero-badge-1">🚀 30 min delivery</div>
+        <div class="hero-badge hero-badge-2">⭐ 4.8 rated</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WHAT'S ON YOUR MIND ===== -->
+  <section class="section-wrap" id="categories-section">
+    <div class="container">
+      <h2 class="section-title">What's on your mind?</h2>
+      <div class="mind-scroll" id="mind-scroll">
+        <div class="mind-item" onclick="filterAndScroll('fast food')">
+          <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=120&q=80" alt="Burger">
+          <span>Burger</span>
+        </div>
+        <div class="mind-item" onclick="filterAndScroll('italian')">
+          <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=120&q=80" alt="Pizza">
+          <span>Pizza</span>
+        </div>
+        <div class="mind-item" onclick="filterAndScroll('italian')">
+          <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=120&q=80" alt="Pasta">
+          <span>Pasta</span>
+        </div>
+        <div class="mind-item" onclick="filterAndScroll('fast food')">
+          <img src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=120&q=80" alt="Tacos">
+          <span>Tacos</span>
+        </div>
+        <div class="mind-item" onclick="filterAndScroll('healthy')">
+          <img src="https://images.unsplash.com/photo-1546793665-c74683f339c1?w=120&q=80" alt="Salad">
+          <span>Salad</span>
+        </div>
+        <div class="mind-item" onclick="filterAndScroll('drinks')">
+          <img src="https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=120&q=80" alt="Smoothie">
+          <span>Smoothie</span>
+        </div>
+        <div class="mind-item" onclick="filterAndScroll('desserts')">
+          <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=120&q=80" alt="Ice Cream">
+          <span>Ice Cream</span>
+        </div>
+        <div class="mind-item" onclick="filterAndScroll('fast food')">
+          <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=120&q=80" alt="Fries">
+          <span>Fries</span>
+        </div>
+        <div class="mind-item" onclick="filterAndScroll('desserts')">
+          <img src="https://images.unsplash.com/photo-1562376552-0d160a2f238d?w=120&q=80" alt="Waffles">
+          <span>Waffles</span>
+        </div>
+        <div class="mind-item" onclick="filterAndScroll('drinks')">
+          <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=120&q=80" alt="Coffee">
+          <span>Coffee</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROMO BANNERS ===== -->
+  <section class="section-wrap promo-section">
+    <div class="container">
+      <div class="promo-grid">
+        <div class="promo-card promo-orange">
+          <div class="promo-text">
+            <span class="promo-tag">LIMITED OFFER</span>
+            <h3>50% OFF your first order</h3>
+            <p>Use code <strong>FIRST50</strong></p>
+            <button onclick="showToast('🎉 Code FIRST50 applied!')">Claim Now</button>
+          </div>
+          <div class="promo-img">🍕</div>
+        </div>
+        <div class="promo-card promo-teal">
+          <div class="promo-text">
+            <span class="promo-tag">FREE DELIVERY</span>
+            <h3>Free delivery on orders above ₹299</h3>
+            <p>No code needed</p>
+            <button onclick="showToast('🚀 Free delivery unlocked!')">Order Now</button>
+          </div>
+          <div class="promo-img">🛵</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MENU SECTION ===== -->
+  <section class="section-wrap" id="menu-section">
+    <div class="container">
+      <div class="menu-header">
+        <h2 class="section-title">Order Food Online</h2>
+      <div class="categories">
+        <button class="cat-btn active" onclick="filterCategory('all', this)">🍽️ All</button>
+        <button class="cat-btn" onclick="filterCategory('indian', this)">🇮🇳 Indian</button>
+        <button class="cat-btn" onclick="filterCategory('chinese', this)">🥢 Chinese</button>
+        <button class="cat-btn" onclick="filterCategory('japanese', this)">🇯🇵 Japanese</button>
+        <button class="cat-btn" onclick="filterCategory('mexican', this)">🇲🇽 Mexican</button>
+        <button class="cat-btn" onclick="filterCategory('italian', this)">� Italian</button>
+        <button class="cat-btn" onclick="filterCategory('american', this)">🇺🇸 American</button>
+        <button class="cat-btn" onclick="filterCategory('thai', this)">🇹🇭 Thai</button>
+        <button class="cat-btn" onclick="filterCategory('middle eastern', this)">🌍 Middle Eastern</button>
+        <button class="cat-btn" onclick="filterCategory('korean', this)">🇰🇷 Korean</button>
+        <button class="cat-btn" onclick="filterCategory('fast food', this)">🍔 Fast Food</button>
+        <button class="cat-btn" onclick="filterCategory('healthy', this)">🥗 Healthy</button>
+        <button class="cat-btn" onclick="filterCategory('desserts', this)">🍰 Desserts</button>
+        <button class="cat-btn" onclick="filterCategory('drinks', this)">🥤 Drinks</button>
+      </div>
+      </div>
+      <div class="food-grid" id="food-list"></div>
+    </div>
+  </section>
+
+  <!-- ===== TOP RESTAURANTS ===== -->
+  <section class="section-wrap bg-light">
+    <div class="container">
+      <div class="section-row">
+        <h2 class="section-title">Top Restaurants Near You</h2>
+        <a href="#" class="see-all">See all →</a>
+      </div>
+      <div class="restaurant-grid" id="restaurant-grid"></div>
+    </div>
+  </section>
+
+  <!-- ===== APP DOWNLOAD BANNER ===== -->
+  <section class="app-banner">
+    <div class="container">
+      <div class="app-banner-inner">
+        <div class="app-text">
+          <h2>Get the QuickBite App</h2>
+          <p>Track your order in real-time, get exclusive app-only deals and reorder your favourites in one tap.</p>
+          <div class="app-btns">
+            <button class="app-store-btn" onclick="showToast('📱 App coming soon!')">
+              <span>🍎</span> App Store
+            </button>
+            <button class="app-store-btn" onclick="showToast('📱 App coming soon!')">
+              <span>▶</span> Google Play
+            </button>
+          </div>
+        </div>
+        <div class="app-img">
+          <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&q=85" alt="QuickBite Mobile App">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo" style="margin-bottom:12px">
+            <span class="logo-icon">🍔</span>
+            <span class="logo-text">QuickBite</span>
+          </div>
+          <p>Delivering happiness to your doorstep since 2020. Fast, fresh and always delicious.</p>
+          <div class="social-links">
+            <a href="#">📘</a><a href="#">🐦</a><a href="#">📸</a><a href="#">▶</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="#">About Us</a>
+          <a href="#">Careers</a>
+          <a href="#">Blog</a>
+          <a href="#">Press</a>
+        </div>
+        <div class="footer-col">
+          <h4>For Foodies</h4>
+          <a href="#">How it Works</a>
+          <a href="#">Offers & Deals</a>
+          <a href="#">Gift Cards</a>
+          <a href="#">QuickBite Pro</a>
+        </div>
+        <div class="footer-col">
+          <h4>For Restaurants</h4>
+          <a href="#">Partner with Us</a>
+          <a href="#">Register Restaurant</a>
+          <a href="#">Business App</a>
+          <a href="#">Advertise</a>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <a href="#">Help Centre</a>
+          <a href="#">Contact Us</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 QuickBite Technologies Pvt. Ltd. All rights reserved.</p>
+        <p>Made with ❤️ for food lovers across India</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== CART SIDEBAR ===== -->
+  <div class="cart-overlay hidden" id="cart-overlay" onclick="toggleCart()"></div>
+  <aside class="cart-sidebar hidden" id="cart-section">
+    <div class="cart-header">
+      <h2>🛒 Your Cart</h2>
+      <button class="close-btn" onclick="toggleCart()">✕</button>
+    </div>
+    <ul id="cart-items" class="cart-list"></ul>
+    <div class="cart-empty hidden" id="cart-empty">
+      <span>🛍️</span>
+      <p>Your cart is empty</p>
+      <small>Add items to get started</small>
+    </div>
+    <div class="cart-footer hidden" id="cart-footer">
+      <div class="cart-subtotal">
+        <span>Subtotal</span><span>₹<span id="subtotal-price">0</span></span>
+      </div>
+      <div class="cart-subtotal">
+        <span>Delivery Fee</span><span class="free-tag">FREE</span>
+      </div>
+      <div class="cart-total">
+        <span>Total</span>
+        <span>₹<span id="total-price">0</span></span>
+      </div>
+      <button class="place-order-btn" onclick="placeOrder()">Place Order →</button>
+    </div>
+  </aside>
+
+  <!-- ===== ORDER SUCCESS MODAL ===== -->
+  <div class="modal-overlay hidden" id="modal-overlay">
+    <div class="modal">
+      <div class="modal-icon">🎉</div>
+      <h2>Order Placed!</h2>
+      <p>Your food is being prepared and will arrive in <strong>30-45 mins</strong>.</p>
+      <div class="modal-track">
+        <div class="track-step done">✅ Confirmed</div>
+        <div class="track-line"></div>
+        <div class="track-step active">👨‍🍳 Preparing</div>
+        <div class="track-line"></div>
+        <div class="track-step">🛵 On the way</div>
+        <div class="track-line"></div>
+        <div class="track-step">🏠 Delivered</div>
+      </div>
+      <button onclick="closeModal()">Back to Menu</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
